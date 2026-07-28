@@ -26,9 +26,9 @@ class PackFrame extends JFrame {
 		);
 		this.setTitle("Exercício 2.3.1 e 2.3.2");
 		this.setSize(500, 500);
-		this.r1 = new Rect(100, 50, 50, 100);
-		this.e1 = new Ellipse(200, 50, 100, 50);
-		this.l1 = new Line(200, 150, 300, 150);
+		this.r1 = new Rect(100, 50, 50, 100, new Color(255, 0, 0), new Color(0, 0, 255));
+		this.e1 = new Ellipse(200, 50, 100, 50, new Color(0, 255, 0), new Color(255, 0, 0));
+		this.l1 = new Line(200, 150, 300, 150, new Color(0,0,255));
 	}
 
 	public void paint (Graphics g) {
