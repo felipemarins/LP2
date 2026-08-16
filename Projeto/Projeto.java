@@ -19,12 +19,6 @@ class Frame extends JFrame {
     String estadoStr;
 
     Frame() {
-        this.addWindowListener(
-                new WindowAdapter() {
-                    public void windowClosing(WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
         this.addKeyListener(
                 new KeyAdapter() {
                     public void keyPressed(KeyEvent e) {
@@ -39,6 +33,8 @@ class Frame extends JFrame {
 
         this.setTitle("Projeto");
         this.setSize(500, 500);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
     }
 
     public void paint(Graphics g) {
