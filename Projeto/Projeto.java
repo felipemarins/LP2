@@ -18,6 +18,8 @@ class Frame extends JFrame {
     ArrayList<Figure> figs = new ArrayList<Figure>();
     State estado;
     String estadoStr;
+    Figure currentFigure;
+    Point currentOrigin;
 
     Frame() {
         this.setState(State.SELECT);
@@ -28,10 +30,44 @@ class Frame extends JFrame {
                         switch (e.getKeyCode()) {
                             case KeyEvent.VK_ESCAPE:
                                 setState(State.SELECT);
+                                currentFigure = null;
                                 break;
                             case KeyEvent.VK_R:
                                 setState(State.CREATE_RECT);
-                                figs.add(new Rect(p.x, p.y, 100, 50, new Color(0, 0, 0), new Color(255, 255, 255)));
+                                currentFigure = null;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+        this.addMouseListener(
+                new MouseAdapter() {
+                    public void mousePressed(MouseEvent e) {
+                        Point p = e.getPoint();
+                        switch (estado) {
+                            case CREATE_RECT:
+                                currentFigure = new Rect(p.x, p.y, 0, 0, new Color(0, 0, 0), new Color(255, 255, 255));
+                                figs.add(currentFigure);
+                                currentOrigin = p;
+                                repaint();
+                            default:
+                                break;
+                        }
+                    }
+
+                    public void mouseReleased(MouseEvent e) {
+                        currentOrigin = null;
+                    }
+                });
+        this.addMouseMotionListener(
+                new MouseMotionAdapter() {
+                    public void mouseDragged(MouseEvent e) {
+                        Point p = e.getPoint();
+                        switch (estado) {
+                            case CREATE_RECT:
+                                currentFigure.setSizeRelativeTo(p.x - currentOrigin.x, p.y - currentOrigin.y,
+                                        currentOrigin.x, currentOrigin.y);
                                 repaint();
                                 break;
                             default:
