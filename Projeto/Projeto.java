@@ -28,7 +28,7 @@ class Frame extends JFrame {
         this.addKeyListener(
                 new KeyAdapter() {
                     public void keyPressed(KeyEvent e) {
-                        Point p = MouseInfo.getPointerInfo().getLocation();
+                        Point p = getMousePosition();
                         if (e.getKeyChar() == 'r') {
                             estadoStr = "Criando retângulo...";
                             figs.add(new Rect(p.x, p.y, 100, 50, new Color(0, 0, 0), new Color(255, 255, 255)));
