@@ -20,6 +20,7 @@ class Frame extends JFrame {
     String estadoStr;
     Figure currentFigure;
     Point currentOrigin;
+    Point currentMouseOrigin;
 
     Frame() {
         this.setState(State.SELECT);
@@ -46,6 +47,11 @@ class Frame extends JFrame {
                     public void mousePressed(MouseEvent e) {
                         Point p = e.getPoint();
                         switch (estado) {
+                            case SELECT:
+                                currentFigure = getFigureAt(p);
+                                currentOrigin = new Point(currentFigure.x, currentFigure.y);
+                                currentMouseOrigin = p;
+                                break;
                             case CREATE_RECT:
                                 currentFigure = new Rect(p.x, p.y, 0, 0, new Color(0, 0, 0), new Color(255, 255, 255));
                                 figs.add(currentFigure);
@@ -58,6 +64,7 @@ class Frame extends JFrame {
 
                     public void mouseReleased(MouseEvent e) {
                         currentOrigin = null;
+                        currentMouseOrigin = null;
                     }
                 });
         this.addMouseMotionListener(
@@ -65,6 +72,11 @@ class Frame extends JFrame {
                     public void mouseDragged(MouseEvent e) {
                         Point p = e.getPoint();
                         switch (estado) {
+                            case SELECT:
+                                currentFigure.x = currentOrigin.x + (p.x - currentMouseOrigin.x);
+                                currentFigure.y = currentOrigin.y + (p.y - currentMouseOrigin.y);
+                                repaint();
+                                break;
                             case CREATE_RECT:
                                 currentFigure.setSizeRelativeTo(p.x - currentOrigin.x, p.y - currentOrigin.y,
                                         currentOrigin.x, currentOrigin.y);
@@ -112,5 +124,16 @@ class Frame extends JFrame {
                 break;
         }
         repaint();
+    }
+
+    private Figure getFigureAt(Point p) {
+        ListIterator<Figure> figsIterator = this.figs.listIterator(figs.size());
+        do {
+            Figure fig = figsIterator.previous();
+            if ((p.x >= fig.x && p.x <= fig.x + fig.w) && (p.y >= fig.y && p.y <= fig.y + fig.h)) {
+                return fig;
+            }
+        } while (figsIterator.hasPrevious());
+        return null;
     }
 }
