@@ -16,17 +16,26 @@ class Projeto {
 
 class Frame extends JFrame {
     ArrayList<Figure> figs = new ArrayList<Figure>();
+    State estado;
     String estadoStr;
 
     Frame() {
+        this.setState(State.SELECT);
         this.addKeyListener(
                 new KeyAdapter() {
                     public void keyPressed(KeyEvent e) {
                         Point p = getMousePosition();
-                        if (e.getKeyChar() == 'r') {
-                            estadoStr = "Criando retângulo...";
-                            figs.add(new Rect(p.x, p.y, 100, 50, new Color(0, 0, 0), new Color(255, 255, 255)));
-                            repaint();
+                        switch (e.getKeyCode()) {
+                            case KeyEvent.VK_ESCAPE:
+                                setState(State.SELECT);
+                                break;
+                            case KeyEvent.VK_R:
+                                setState(State.CREATE_RECT);
+                                figs.add(new Rect(p.x, p.y, 100, 50, new Color(0, 0, 0), new Color(255, 255, 255)));
+                                repaint();
+                                break;
+                            default:
+                                break;
                         }
                     }
                 });
@@ -49,5 +58,23 @@ class Frame extends JFrame {
         estadoAttrStr.addAttribute(TextAttribute.SIZE, 10);
         estadoAttrStr.addAttribute(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD, 0, 13);
         g.drawString(estadoAttrStr.getIterator(), 10, 45);
+    }
+
+    enum State {
+        SELECT, CREATE_RECT
+    }
+
+    private void setState(State s) {
+        switch (s) {
+            case SELECT:
+                this.estado = State.SELECT;
+                this.estadoStr = "Selecionando figura...";
+                break;
+            case CREATE_RECT:
+                this.estado = State.CREATE_RECT;
+                this.estadoStr = "Criando retângulo...";
+                break;
+        }
+        repaint();
     }
 }
