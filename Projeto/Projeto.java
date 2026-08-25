@@ -54,8 +54,10 @@ class Frame extends JFrame {
                         switch (estado) {
                             case SELECT:
                                 currentFigure = getFigureAt(p);
-                                currentOrigin = new Point(currentFigure.x, currentFigure.y);
-                                currentMouseOrigin = p;
+                                if (currentFigure != null) {
+                                    currentOrigin = new Point(currentFigure.x, currentFigure.y);
+                                    currentMouseOrigin = p;
+                                }
                                 break;
                             case CREATE_RECT:
                                 currentFigure = new Rect(p.x, p.y, 0, 0, new Color(0, 0, 0), new Color(255, 255, 255));
@@ -78,14 +80,18 @@ class Frame extends JFrame {
                         Point p = e.getPoint();
                         switch (estado) {
                             case SELECT:
-                                currentFigure.x = currentOrigin.x + (p.x - currentMouseOrigin.x);
-                                currentFigure.y = currentOrigin.y + (p.y - currentMouseOrigin.y);
-                                repaint();
+                                if (currentFigure != null) {
+                                    currentFigure.x = currentOrigin.x + (p.x - currentMouseOrigin.x);
+                                    currentFigure.y = currentOrigin.y + (p.y - currentMouseOrigin.y);
+                                    repaint();
+                                }
                                 break;
                             case CREATE_RECT:
-                                currentFigure.setSizeRelativeTo(p.x - currentOrigin.x, p.y - currentOrigin.y,
-                                        currentOrigin.x, currentOrigin.y);
-                                repaint();
+                                if (currentFigure != null) {
+                                    currentFigure.setSizeRelativeTo(p.x - currentOrigin.x, p.y - currentOrigin.y,
+                                            currentOrigin.x, currentOrigin.y);
+                                    repaint();
+                                }
                                 break;
                             default:
                                 break;
@@ -133,12 +139,12 @@ class Frame extends JFrame {
 
     private Figure getFigureAt(Point p) {
         ListIterator<Figure> figsIterator = this.figs.listIterator(figs.size());
-        do {
+        while (figsIterator.hasPrevious()) {
             Figure fig = figsIterator.previous();
             if ((p.x >= fig.x && p.x <= fig.x + fig.w) && (p.y >= fig.y && p.y <= fig.y + fig.h)) {
                 return fig;
             }
-        } while (figsIterator.hasPrevious());
+        }
         return null;
     }
 }
