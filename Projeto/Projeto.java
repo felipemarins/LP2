@@ -20,14 +20,13 @@ class Frame extends JFrame {
     String estadoStr;
     Figure currentFigure;
     Point currentOrigin;
-    Point currentMouseOrigin;
+    Point lastMousePosition;
 
     Frame() {
         this.setState(State.SELECT);
         this.addKeyListener(
                 new KeyAdapter() {
                     public void keyPressed(KeyEvent e) {
-                        Point p = getMousePosition();
                         switch (e.getKeyCode()) {
                             case KeyEvent.VK_ESCAPE:
                                 setState(State.SELECT);
@@ -55,8 +54,7 @@ class Frame extends JFrame {
                             case SELECT:
                                 currentFigure = getFigureAt(p);
                                 if (currentFigure != null) {
-                                    currentOrigin = new Point(currentFigure.x, currentFigure.y);
-                                    currentMouseOrigin = p;
+                                    lastMousePosition = p;
                                 }
                                 break;
                             case CREATE_RECT:
@@ -71,7 +69,6 @@ class Frame extends JFrame {
 
                     public void mouseReleased(MouseEvent e) {
                         currentOrigin = null;
-                        currentMouseOrigin = null;
                     }
                 });
         this.addMouseMotionListener(
@@ -81,14 +78,14 @@ class Frame extends JFrame {
                         switch (estado) {
                             case SELECT:
                                 if (currentFigure != null) {
-                                    currentFigure.x = currentOrigin.x + (p.x - currentMouseOrigin.x);
-                                    currentFigure.y = currentOrigin.y + (p.y - currentMouseOrigin.y);
+                                    currentFigure.move(p.x - lastMousePosition.x, p.y - lastMousePosition.y);
+                                    lastMousePosition = p;
                                     repaint();
                                 }
                                 break;
                             case CREATE_RECT:
                                 if (currentFigure != null) {
-                                    currentFigure.setSizeRelativeTo(p.x - currentOrigin.x, p.y - currentOrigin.y,
+                                    currentFigure.setSizeRelativeTo(p.x, p.y,
                                             currentOrigin.x, currentOrigin.y);
                                     repaint();
                                 }

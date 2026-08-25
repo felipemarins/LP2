@@ -15,7 +15,13 @@ public abstract class Figure {
 
     public abstract void paint(Graphics g);
 
-    public void setSizeRelativeTo(int width, int height, int originX, int originY) {
+    public void move(int offsetX, int offsetY){
+        this.x += offsetX;
+        this.y += offsetY;
+    }
+
+    public void setSizeRelativeTo(int x, int y, int originX, int originY) {
+        int width = x - originX;
         if (width < 0) {
             this.x = originX + width;
         } else {
@@ -23,6 +29,7 @@ public abstract class Figure {
         }
         this.w = Math.abs(width);
 
+        int height = y - originY;
         if (height < 0) {
             this.y = originY + height;
         } else {
