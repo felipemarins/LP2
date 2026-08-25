@@ -37,6 +37,11 @@ class Frame extends JFrame {
                                 setState(State.CREATE_RECT);
                                 currentFigure = null;
                                 break;
+                            case KeyEvent.VK_DELETE:
+                                figs.remove(currentFigure);
+                                currentFigure = null;
+                                repaint();
+                                break;
                             default:
                                 break;
                         }
