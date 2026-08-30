@@ -44,6 +44,10 @@ class Frame extends JFrame {
                                 setState(State.CREATE_LINE);
                                 currentFigure = null;
                                 break;
+                            case KeyEvent.VK_T:
+                                setState(State.CREATE_TRIANGLE);
+                                currentFigure = null;
+                                break;
                             case KeyEvent.VK_DELETE:
                                 figs.remove(currentFigure);
                                 currentFigure = null;
@@ -66,7 +70,7 @@ class Frame extends JFrame {
                                     lastMousePosition = p;
                                 }
                                 break;
-                            case CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE:
+                            case CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE, CREATE_TRIANGLE:
                                 switch (estado) {
                                     case CREATE_RECT:
                                         currentFigure = new Rect(p.x, p.y, 0, 0, Color.BLACK, Color.WHITE);
@@ -76,6 +80,10 @@ class Frame extends JFrame {
                                         break;
                                     case CREATE_LINE:
                                         currentFigure = new Line(p.x, p.y, 0, 0, Color.BLACK);
+                                        break;
+                                    case CREATE_TRIANGLE:
+                                        currentFigure = new Triangle(p.x, p.y, 0, 0, Color.BLACK, Color.WHITE);
+                                        break;
                                 }
                                 figs.add(currentFigure);
                                 currentOrigin = p;
@@ -102,7 +110,7 @@ class Frame extends JFrame {
                                     repaint();
                                 }
                                 break;
-                            case CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE:
+                            case CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE, CREATE_TRIANGLE:
                                 if (currentFigure != null) {
                                     currentFigure.setSizeRelativeTo(p.x, p.y,
                                             currentOrigin.x, currentOrigin.y);
@@ -139,7 +147,7 @@ class Frame extends JFrame {
     }
 
     enum State {
-        SELECT, CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE
+        SELECT, CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE, CREATE_TRIANGLE
     }
 
     private void setState(State s) {
@@ -159,6 +167,10 @@ class Frame extends JFrame {
             case CREATE_LINE:
                 this.estado = State.CREATE_LINE;
                 this.estadoStr = "Criando linha...";
+                break;
+            case CREATE_TRIANGLE:
+                this.estado = State.CREATE_TRIANGLE;
+                this.estadoStr = "Criando triângulo...";
                 break;
         }
         repaint();
