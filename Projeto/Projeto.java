@@ -29,8 +29,8 @@ class Frame extends JFrame {
                     public void keyPressed(KeyEvent e) {
                         switch (e.getKeyCode()) {
                             case KeyEvent.VK_ESCAPE:
-                                setState(State.SELECT);
                                 currentFigure = null;
+                                setState(State.SELECT);
                                 break;
                             case KeyEvent.VK_R:
                                 setState(State.CREATE_RECT);
@@ -53,6 +53,7 @@ class Frame extends JFrame {
                         switch (estado) {
                             case SELECT:
                                 currentFigure = getFigureAt(p);
+                                repaint();
                                 if (currentFigure != null) {
                                     lastMousePosition = p;
                                 }
@@ -107,6 +108,9 @@ class Frame extends JFrame {
         figs.forEach((fig) -> {
             fig.paint(g);
         });
+        if (currentFigure != null) {
+            currentFigure.paintFocused(g);
+        }
         g.setColor(new Color(150, 150, 255));
         g.fillRect(0, 0, this.getSize().width, 50);
         g.setColor(new Color(25, 25, 25));

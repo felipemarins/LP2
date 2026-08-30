@@ -15,7 +15,15 @@ public abstract class Figure {
 
     public abstract void paint(Graphics g);
 
-    public void move(int offsetX, int offsetY){
+    public void paintFocused(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setStroke(new BasicStroke(4.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f,
+                new float[] { 4.0f, 8.0f }, 0f));
+        g2d.setColor(new Color(250, 250, 0, 200));
+        g2d.drawRect(x, y, w, h);
+    }
+
+    public void move(int offsetX, int offsetY) {
         this.x += offsetX;
         this.y += offsetY;
     }
