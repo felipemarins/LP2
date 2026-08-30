@@ -36,6 +36,10 @@ class Frame extends JFrame {
                                 setState(State.CREATE_RECT);
                                 currentFigure = null;
                                 break;
+                            case KeyEvent.VK_E:
+                                setState(State.CREATE_ELLIPSE);
+                                currentFigure = null;
+                                break;
                             case KeyEvent.VK_DELETE:
                                 figs.remove(currentFigure);
                                 currentFigure = null;
@@ -58,11 +62,19 @@ class Frame extends JFrame {
                                     lastMousePosition = p;
                                 }
                                 break;
-                            case CREATE_RECT:
-                                currentFigure = new Rect(p.x, p.y, 0, 0, Color.BLACK, Color.WHITE);
+                            case CREATE_RECT, CREATE_ELLIPSE:
+                                switch (estado) {
+                                    case CREATE_RECT:
+                                        currentFigure = new Rect(p.x, p.y, 0, 0, Color.BLACK, Color.WHITE);
+                                        break;
+                                    case CREATE_ELLIPSE:
+                                        currentFigure = new Ellipse(p.x, p.y, 0, 0, Color.BLACK, Color.WHITE);
+                                        break;
+                                }
                                 figs.add(currentFigure);
                                 currentOrigin = p;
                                 repaint();
+                                break;
                             default:
                                 break;
                         }
@@ -84,7 +96,7 @@ class Frame extends JFrame {
                                     repaint();
                                 }
                                 break;
-                            case CREATE_RECT:
+                            case CREATE_RECT, CREATE_ELLIPSE:
                                 if (currentFigure != null) {
                                     currentFigure.setSizeRelativeTo(p.x, p.y,
                                             currentOrigin.x, currentOrigin.y);
@@ -121,7 +133,7 @@ class Frame extends JFrame {
     }
 
     enum State {
-        SELECT, CREATE_RECT
+        SELECT, CREATE_RECT, CREATE_ELLIPSE
     }
 
     private void setState(State s) {
@@ -133,6 +145,10 @@ class Frame extends JFrame {
             case CREATE_RECT:
                 this.estado = State.CREATE_RECT;
                 this.estadoStr = "Criando retângulo...";
+                break;
+            case CREATE_ELLIPSE:
+                this.estado = State.CREATE_ELLIPSE;
+                this.estadoStr = "Criando elipse...";
                 break;
         }
         repaint();
