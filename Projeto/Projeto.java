@@ -59,7 +59,7 @@ class Frame extends JFrame {
                                 }
                                 break;
                             case CREATE_RECT:
-                                currentFigure = new Rect(p.x, p.y, 0, 0, new Color(0, 0, 0), new Color(255, 255, 255));
+                                currentFigure = new Rect(p.x, p.y, 0, 0, Color.BLACK, Color.WHITE);
                                 figs.add(currentFigure);
                                 currentOrigin = p;
                                 repaint();
