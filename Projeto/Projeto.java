@@ -142,7 +142,7 @@ class Frame extends JFrame {
         ListIterator<Figure> figsIterator = this.figs.listIterator(figs.size());
         while (figsIterator.hasPrevious()) {
             Figure fig = figsIterator.previous();
-            if ((p.x >= fig.x && p.x <= fig.x + fig.w) && (p.y >= fig.y && p.y <= fig.y + fig.h)) {
+            if (fig.contains(p)) {
                 return fig;
             }
         }

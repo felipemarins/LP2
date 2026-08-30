@@ -11,6 +11,11 @@ public class Rect extends Figure {
         this.backgroundColor = backgroundColor;
     }
 
+    public boolean contains(Point p) {
+        Rectangle r = new Rectangle(this.x, this.y, this.w, this.h);
+        return r.contains(p);
+    }
+
     public void print() {
         System.out.format("Retangulo de tamanho (%d,%d) na posicao (%d,%d).\n",
                 this.w, this.h, this.x, this.y);

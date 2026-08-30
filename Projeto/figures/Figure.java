@@ -23,6 +23,8 @@ public abstract class Figure {
         g2d.drawRect(x, y, w, h);
     }
 
+    public abstract boolean contains(Point p);
+
     public void move(int offsetX, int offsetY) {
         this.x += offsetX;
         this.y += offsetY;
