@@ -23,7 +23,6 @@ class Frame extends JFrame {
     Point lastMousePosition;
 
     Frame() {
-        this.setState(State.SELECT);
         this.addKeyListener(
                 new KeyAdapter() {
                     public void keyPressed(KeyEvent e) {
@@ -127,6 +126,7 @@ class Frame extends JFrame {
         this.setSize(500, 500);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
+        this.setState(State.SELECT);
     }
 
     public void paint(Graphics g) {
