@@ -21,6 +21,7 @@ class Frame extends JFrame {
     Figure currentFigure;
     Point currentOrigin;
     Point lastMousePosition;
+    Point offsetToQuadrant;
 
     Frame() {
         this.addKeyListener(
@@ -47,6 +48,10 @@ class Frame extends JFrame {
                                 setState(State.CREATE_TRIANGLE);
                                 currentFigure = null;
                                 break;
+                            case KeyEvent.VK_S:
+                                setState(State.RESIZE);
+                                currentFigure = null;
+                                break;
                             case KeyEvent.VK_DELETE:
                                 figs.remove(currentFigure);
                                 currentFigure = null;
@@ -63,10 +68,18 @@ class Frame extends JFrame {
                         Point p = e.getPoint();
                         switch (estado) {
                             case SELECT:
-                                currentFigure = getFigureAt(p);
+                                currentFigure = getFigureAt(p, false);
                                 repaint();
                                 if (currentFigure != null) {
                                     lastMousePosition = p;
+                                }
+                                break;
+                            case RESIZE:
+                                currentFigure = getFigureAt(p, true);
+                                repaint();
+                                if (currentFigure != null) {
+                                    currentOrigin = currentFigure.getOrigin(p);
+                                    offsetToQuadrant = currentFigure.getOffsetToClosestCorner(p);
                                 }
                                 break;
                             case CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE, CREATE_TRIANGLE:
@@ -109,10 +122,30 @@ class Frame extends JFrame {
                                     repaint();
                                 }
                                 break;
+                            case RESIZE:
+                                if (currentFigure != null) {
+                                    p.translate(offsetToQuadrant.x, offsetToQuadrant.y);
+                                    currentFigure.setSizeRelativeTo(p.x, p.y, currentOrigin.x, currentOrigin.y);
+                                    repaint();
+                                }
+                                break;
                             case CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE, CREATE_TRIANGLE:
                                 if (currentFigure != null) {
                                     currentFigure.setSizeRelativeTo(p.x, p.y,
                                             currentOrigin.x, currentOrigin.y);
+                                    repaint();
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    public void mouseMoved(MouseEvent e) {
+                        switch (estado) {
+                            case RESIZE:
+                                if (currentFigure != getFigureAt(e.getPoint(), true)) {
+                                    currentFigure = getFigureAt(e.getPoint(), true);
                                     repaint();
                                 }
                                 break;
@@ -147,7 +180,7 @@ class Frame extends JFrame {
     }
 
     enum State {
-        SELECT, CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE, CREATE_TRIANGLE
+        SELECT, CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE, CREATE_TRIANGLE, RESIZE
     }
 
     private void setState(State s) {
@@ -172,15 +205,19 @@ class Frame extends JFrame {
                 this.estado = State.CREATE_TRIANGLE;
                 this.estadoStr = "Criando triângulo...";
                 break;
+            case RESIZE:
+                this.estado = State.RESIZE;
+                this.estadoStr = "Redimensionando...";
+                break;
         }
         repaint();
     }
 
-    private Figure getFigureAt(Point p) {
+    private Figure getFigureAt(Point p, boolean anywhereInsideBounds) {
         ListIterator<Figure> figsIterator = this.figs.listIterator(figs.size());
         while (figsIterator.hasPrevious()) {
             Figure fig = figsIterator.previous();
-            if (fig.contains(p)) {
+            if (fig.contains(p) || (anywhereInsideBounds && fig.boundsContain(p))) {
                 return fig;
             }
         }

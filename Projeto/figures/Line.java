@@ -33,7 +33,22 @@ public class Line extends Figure {
 
     public void setSizeRelativeTo(int x, int y, int originX, int originY) {
         super.setSizeRelativeTo(x, y, originX, originY);
-        line.setLine(originX, originY, x, y);
+        double x1 = line.getX1();
+        double y1 = line.getY1();
+        double x2 = line.getX2();
+        double y2 = line.getY2();
+        if (!(x1 == originX && y1 == originY) && !(x2 == originX && y2 == originY)) {
+            x1 = Math.min(originX, x);
+            y1 = Math.min(originY, y);
+            x2 = Math.max(originX, x);
+            y2 = Math.max(originY, y);
+        } else {
+            x1 = originX;
+            y1 = originY;
+            x2 = x;
+            y2 = y;
+        }
+        line.setLine(x1, y1, x2, y2);
     }
 
     public void paint(Graphics g) {
