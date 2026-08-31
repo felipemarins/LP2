@@ -52,6 +52,18 @@ class Frame extends JFrame {
                                 setState(State.RESIZE);
                                 currentFigure = null;
                                 break;
+                            case KeyEvent.VK_PAGE_UP:
+                                if (currentFigure != null) {
+                                    changeFigureZ(currentFigure, 1);
+                                    repaint();
+                                }
+                                break;
+                            case KeyEvent.VK_PAGE_DOWN:
+                                if (currentFigure != null) {
+                                    changeFigureZ(currentFigure, -1);
+                                    repaint();
+                                }
+                                break;
                             case KeyEvent.VK_DELETE:
                                 figs.remove(currentFigure);
                                 currentFigure = null;
@@ -222,5 +234,13 @@ class Frame extends JFrame {
             }
         }
         return null;
+    }
+
+    private void changeFigureZ(Figure fig, int offset) {
+        int i = figs.indexOf(fig);
+        figs.remove(fig);
+        i += offset;
+        i = Math.clamp(i, 0, figs.size());
+        figs.add(i, fig);
     }
 }
