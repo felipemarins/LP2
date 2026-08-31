@@ -37,16 +37,10 @@ class Frame extends JFrame {
                                     String s = JOptionPane.showInputDialog(Frame.this,
                                             "Defina a cor de contorno (em hexcode):", "Cor de contorno",
                                             JOptionPane.QUESTION_MESSAGE);
-                                    if (s == null) {
-                                        break;
-                                    }
-                                    while (!s.matches("[0-9a-fA-F]{1,6}")) {
+                                    while (s != null && !s.matches("[0-9a-fA-F]{1,6}")) {
                                         s = JOptionPane.showInputDialog(Frame.this,
                                                 "Valor inválido!\nDefina a cor de contorno (em hexcode):",
                                                 "Cor de contorno", JOptionPane.ERROR_MESSAGE);
-                                        if (s == null) {
-                                            break;
-                                        }
                                     }
                                     if (s == null) {
                                         break;
@@ -60,16 +54,10 @@ class Frame extends JFrame {
                                     String s = JOptionPane.showInputDialog(Frame.this,
                                             "Defina a cor de fundo (em hexcode):", "Cor de fundo",
                                             JOptionPane.QUESTION_MESSAGE);
-                                    if (s == null) {
-                                        break;
-                                    }
-                                    while (!s.matches("[0-9a-fA-F]{1,6}")) {
+                                    while (s != null && !s.matches("[0-9a-fA-F]{1,6}")) {
                                         s = JOptionPane.showInputDialog(Frame.this,
                                                 "Valor inválido!\nDefina a cor de fundo (em hexcode):",
                                                 "Cor de fundo", JOptionPane.ERROR_MESSAGE);
-                                        if (s == null) {
-                                            break;
-                                        }
                                     }
                                     if (s == null) {
                                         break;
