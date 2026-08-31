@@ -37,16 +37,16 @@ public class Line extends Figure {
         double y1 = line.getY1();
         double x2 = line.getX2();
         double y2 = line.getY2();
-        if (!(x1 == originX && y1 == originY) && !(x2 == originX && y2 == originY)) {
-            x1 = Math.min(originX, x);
-            y1 = Math.min(originY, y);
-            x2 = Math.max(originX, x);
-            y2 = Math.max(originY, y);
-        } else {
+        if ((x1 == originX && y1 == originY) || (x2 == originX && y2 == originY) || (x1 == x2 && y1 == y2)) {
             x1 = originX;
             y1 = originY;
             x2 = x;
             y2 = y;
+        } else {
+            x1 = originX;
+            y1 = y;
+            x2 = x;
+            y2 = originY;
         }
         line.setLine(x1, y1, x2, y2);
     }
