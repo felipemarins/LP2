@@ -2,14 +2,11 @@ package figures;
 
 import java.awt.*;
 
-public class Triangle extends Figure {
-    Color outlineColor, backgroundColor;
+public class Triangle extends FillableFigure {
     Polygon shape;
 
-    public Triangle(int x, int y, int width, int height, Color outlineColor, Color backgroundColor) {
-        super(x, y, width, height);
-        this.outlineColor = outlineColor;
-        this.backgroundColor = backgroundColor;
+    public Triangle(int x, int y, int width, int height, Color drawColor, Color fillColor) {
+        super(x, y, width, height, drawColor, fillColor);
         updateShape();
     }
 
@@ -37,9 +34,9 @@ public class Triangle extends Figure {
 
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g.setColor(backgroundColor);
+        g.setColor(fillColor);
         g2d.fill(shape);
-        g.setColor(outlineColor);
+        g.setColor(drawColor);
         g2d.draw(shape);
     }
 }

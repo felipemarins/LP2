@@ -5,11 +5,9 @@ import java.awt.geom.*;
 
 public class Line extends Figure {
     Line2D.Double line;
-    Color color;
 
-    public Line(int x, int y, int w, int h, Color color) {
-        super(x, y, w, h);
-        this.color = color;
+    public Line(int x, int y, int w, int h, Color drawColor) {
+        super(x, y, w, h, drawColor);
         if (w == 0 && h == 0) {
             this.line = new Line2D.Double();
         } else {
@@ -53,7 +51,7 @@ public class Line extends Figure {
 
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g.setColor(color);
+        g.setColor(drawColor);
         g2d.draw(line);
     }
 }

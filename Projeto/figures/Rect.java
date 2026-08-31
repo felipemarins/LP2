@@ -2,13 +2,9 @@ package figures;
 
 import java.awt.*;
 
-public class Rect extends Figure {
-    Color outlineColor, backgroundColor;
-
-    public Rect(int x, int y, int width, int height, Color outlineColor, Color backgroundColor) {
-        super(x, y, width, height);
-        this.outlineColor = outlineColor;
-        this.backgroundColor = backgroundColor;
+public class Rect extends FillableFigure {
+    public Rect(int x, int y, int width, int height, Color drawColor, Color fillColor) {
+        super(x, y, width, height, drawColor, fillColor);
     }
 
     public boolean contains(Point p) {
@@ -23,9 +19,9 @@ public class Rect extends Figure {
 
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g.setColor(backgroundColor);
+        g.setColor(fillColor);
         g2d.fillRect(this.x, this.y, this.w, this.h);
-        g.setColor(outlineColor);
+        g.setColor(drawColor);
         g2d.drawRect(this.x, this.y, this.w, this.h);
     }
 }

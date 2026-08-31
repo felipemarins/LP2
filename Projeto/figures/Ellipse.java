@@ -3,13 +3,9 @@ package figures;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-public class Ellipse extends Figure {
-    Color outlineColor, backgroundColor;
-
-    public Ellipse(int x, int y, int w, int h, Color outlineColor, Color backgroundColor) {
-        super(x, y, w, h);
-        this.outlineColor = outlineColor;
-        this.backgroundColor = backgroundColor;
+public class Ellipse extends FillableFigure {
+    public Ellipse(int x, int y, int w, int h, Color drawColor, Color fillColor) {
+        super(x, y, w, h, drawColor, fillColor);
     }
 
     public boolean contains(Point p) {
@@ -24,9 +20,9 @@ public class Ellipse extends Figure {
 
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g.setColor(backgroundColor);
+        g.setColor(fillColor);
         g.fillOval(this.x, this.y, this.w, this.h);
-        g.setColor(outlineColor);
+        g.setColor(drawColor);
         g.drawOval(this.x, this.y, this.w, this.h);
     }
 }

@@ -5,13 +5,15 @@ import java.awt.*;
 public abstract class Figure {
     int x, y;
     int w, h;
+    Color drawColor;
     Rectangle bounds;
 
-    public Figure(int x, int y, int width, int height) {
+    public Figure(int x, int y, int width, int height, Color drawColor) {
         this.x = x;
         this.y = y;
         this.w = width;
         this.h = height;
+        this.drawColor = drawColor;
         updateBounds();
     }
 
@@ -23,6 +25,10 @@ public abstract class Figure {
                 new float[] { 4.0f, 8.0f }, 0f));
         g2d.setColor(new Color(250, 250, 0, 200));
         g2d.draw(bounds);
+    }
+
+    public void setDrawColor(Color c) {
+        drawColor = c;
     }
 
     public abstract boolean contains(Point p);
