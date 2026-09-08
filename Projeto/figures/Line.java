@@ -2,6 +2,7 @@ package figures;
 
 import java.awt.*;
 import java.awt.geom.*;
+import javax.swing.JFrame;
 
 public class Line extends Figure {
     Line2D.Double line;
@@ -53,5 +54,9 @@ public class Line extends Figure {
         Graphics2D g2d = (Graphics2D) g;
         g.setColor(drawColor);
         g2d.draw(line);
+    }
+
+    public void setFillColor(JFrame frame) {
+        return;
     }
 }

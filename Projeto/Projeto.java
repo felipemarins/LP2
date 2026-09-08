@@ -34,39 +34,16 @@ class Frame extends JFrame {
                                 break;
                             case KeyEvent.VK_C:
                                 if (currentFigure != null) {
-                                    String s = JOptionPane.showInputDialog(Frame.this,
-                                            "Defina a cor de contorno (em hexcode):", "Cor de contorno",
-                                            JOptionPane.QUESTION_MESSAGE);
-                                    while (s != null && !s.matches("[0-9a-fA-F]{1,6}")) {
-                                        s = JOptionPane.showInputDialog(Frame.this,
-                                                "Valor inválido!\nDefina a cor de contorno (em hexcode):",
-                                                "Cor de contorno", JOptionPane.ERROR_MESSAGE);
-                                    }
-                                    if (s == null) {
-                                        break;
-                                    }
-                                    currentFigure.setDrawColor(new Color(Integer.parseInt(s, 16)));
+                                    currentFigure.setDrawColor(Frame.this);
                                     repaint();
                                 }
                                 break;
                             case KeyEvent.VK_B:
-                                if (currentFigure != null && currentFigure instanceof FillableFigure) {
-                                    String s = JOptionPane.showInputDialog(Frame.this,
-                                            "Defina a cor de fundo (em hexcode):", "Cor de fundo",
-                                            JOptionPane.QUESTION_MESSAGE);
-                                    while (s != null && !s.matches("[0-9a-fA-F]{1,6}")) {
-                                        s = JOptionPane.showInputDialog(Frame.this,
-                                                "Valor inválido!\nDefina a cor de fundo (em hexcode):",
-                                                "Cor de fundo", JOptionPane.ERROR_MESSAGE);
-                                    }
-                                    if (s == null) {
-                                        break;
-                                    }
-                                    FillableFigure fillableFigure = (FillableFigure) currentFigure;
-                                    fillableFigure.setFillColor(new Color(Integer.parseInt(s, 16)));
+                                if (currentFigure != null) {
+                                    currentFigure.setFillColor(Frame.this);
                                     repaint();
-                                    break;
                                 }
+                                break;
                             case KeyEvent.VK_R:
                                 setState(State.CREATE_RECT);
                                 currentFigure = null;

@@ -1,6 +1,7 @@
 package figures;
 
 import java.awt.*;
+import javax.swing.*;
 
 public abstract class Figure {
     int x, y;
@@ -27,8 +28,25 @@ public abstract class Figure {
         g2d.draw(bounds);
     }
 
-    public void setDrawColor(Color c) {
+    public void setDrawColor(JFrame frame) {
+        Color c = setColor(frame, "Cor de contorno", "Defina a cor de contorno (em hexcode):");
+        if (c == null) {
+            return;
+        }
         drawColor = c;
+    }
+
+    public abstract void setFillColor(JFrame frame);
+
+    protected Color setColor(JFrame frame, String title, String message) {
+        String s = JOptionPane.showInputDialog(frame, message, title, JOptionPane.QUESTION_MESSAGE);
+        while (s != null && !s.matches("[0-9a-fA-F]{1,6}")) {
+            s = JOptionPane.showInputDialog(frame, "Valor inválido!\n" + message, title, JOptionPane.ERROR_MESSAGE);
+        }
+        if (s == null) {
+            return null;
+        }
+        return new Color(Integer.parseInt(s, 16));
     }
 
     public abstract boolean contains(Point p);

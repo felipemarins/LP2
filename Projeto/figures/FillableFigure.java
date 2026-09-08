@@ -1,6 +1,7 @@
 package figures;
 
 import java.awt.*;
+import javax.swing.JFrame;
 
 public abstract class FillableFigure extends Figure {
     Color fillColor;
@@ -10,7 +11,11 @@ public abstract class FillableFigure extends Figure {
         this.fillColor = fillColor;
     }
 
-    public void setFillColor(Color c) {
+    public void setFillColor(JFrame frame) {
+        Color c = setColor(frame, "Cor de fundo", "Defina a cor de fundo (em hexcode):");
+        if (c == null) {
+            return;
+        }
         fillColor = c;
     }
 }
