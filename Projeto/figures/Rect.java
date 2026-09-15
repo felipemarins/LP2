@@ -7,6 +7,11 @@ public class Rect extends FillableFigure {
         super(x, y, width, height, drawColor, fillColor);
     }
 
+    // Cria uma cópia do objeto Rect com offset de (20,20) para (x,y)
+    public Figure copy() {
+        return new Rect(this.x + 20, this.y + 20, this.w, this.h, this.drawColor, this.fillColor);
+    }
+
     public boolean contains(Point p) {
         Rectangle r = new Rectangle(this.x, this.y, this.w, this.h);
         return r.contains(p);

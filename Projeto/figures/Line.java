@@ -16,6 +16,18 @@ public class Line extends Figure {
         }
     }
 
+    public Line(int x, int y, int w, int h, Color drawColor, Line2D.Double line) {
+        super(x, y, w, h, drawColor);
+        this.line = new Line2D.Double(line.getP1(), line.getP2());
+    }
+
+    // Cria uma cópia do objeto Line com offset de (20,20) para (x,y)
+    public Figure copy() {
+        Line l = new Line(this.x, this.y, this.w, this.h, drawColor, line);
+        l.move(20, 20);
+        return l;
+    }
+
     public boolean contains(Point p) {
         Rectangle r = new Rectangle(this.x, this.y, this.w, this.h);
         return r.contains(p);

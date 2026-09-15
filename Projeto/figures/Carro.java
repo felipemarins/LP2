@@ -15,6 +15,11 @@ public class Carro extends FillableFigure {
         updateRodas();
     }
 
+    // Cria uma cópia do objeto Carro com offset de (20,20) para (x,y)
+    public Figure copy() {
+        return new Carro(this.x + 20, this.y + 20, this.w, this.h, this.drawColor, this.fillColor);
+    }
+
     private int calculateRodaDiametro(){
         return Math.min(w/4, h/4);
     }

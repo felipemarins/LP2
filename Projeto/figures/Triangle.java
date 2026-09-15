@@ -10,6 +10,11 @@ public class Triangle extends FillableFigure {
         updateShape();
     }
 
+    // Cria uma cópia do objeto Triangle com offset de (20,20) para (x,y)
+    public Figure copy() {
+        return new Triangle(this.x + 20, this.y + 20, this.w, this.h, this.drawColor, this.fillColor);
+    }
+
     public boolean contains(Point p) {
         return shape.contains(p);
     }

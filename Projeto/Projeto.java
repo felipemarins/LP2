@@ -89,6 +89,11 @@ class Frame extends JFrame {
                                 currentFigure = getNextFigure();
                                 repaint();
                                 break;
+                            case KeyEvent.VK_3:
+                                currentFigure = currentFigure.copy();
+                                figs.add(currentFigure);
+                                repaint();
+                                break;
                             default:
                                 break;
                         }

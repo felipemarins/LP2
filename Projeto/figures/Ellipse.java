@@ -8,6 +8,11 @@ public class Ellipse extends FillableFigure {
         super(x, y, w, h, drawColor, fillColor);
     }
 
+    // Cria uma cópia do objeto Ellipse com offset de (20,20) para (x,y)
+    public Figure copy() {
+        return new Ellipse(this.x + 20, this.y + 20, this.w, this.h, this.drawColor, this.fillColor);
+    }
+
     public boolean contains(Point p) {
         Ellipse2D.Double e = new Ellipse2D.Double(this.x, this.y, this.w, this.h);
         return e.contains(p);

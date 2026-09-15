@@ -18,6 +18,8 @@ public abstract class Figure {
         updateBounds();
     }
 
+    public abstract Figure copy();
+
     public abstract void paint(Graphics g);
 
     public void paintFocused(Graphics g) {
