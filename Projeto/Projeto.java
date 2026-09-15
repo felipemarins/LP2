@@ -81,6 +81,10 @@ class Frame extends JFrame {
                                 currentFigure = null;
                                 repaint();
                                 break;
+                            case KeyEvent.VK_2:
+                                currentFigure = getNextFigure();
+                                repaint();
+                                break;
                             default:
                                 break;
                         }
@@ -246,6 +250,22 @@ class Frame extends JFrame {
             }
         }
         return null;
+    }
+
+    private Figure getNextFigure(){
+        Figure fig = currentFigure;
+        int i = 0;
+        // Verifica se existe alguma figura em foco, e, caso exista, seu índice + 1 é atribuído a i
+        if(fig != null){
+            i = figs.indexOf(fig) + 1;
+        }
+
+        // Retorna null caso a lista de figuras esteja vazia
+        if (figs.isEmpty()){
+            return null;
+        }
+        // Retorna próxima figura, tratando figs como uma lista circular
+        return figs.get(i % figs.size());
     }
 
     private void changeFigureZ(Figure fig, int offset) {
