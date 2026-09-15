@@ -60,6 +60,10 @@ class Frame extends JFrame {
                                 setState(State.CREATE_TRIANGLE);
                                 currentFigure = null;
                                 break;
+                            case KeyEvent.VK_1:
+                                setState(State.CREATE_CARRO);
+                                currentFigure = null;
+                                break;
                             case KeyEvent.VK_S:
                                 setState(State.RESIZE);
                                 currentFigure = null;
@@ -110,7 +114,7 @@ class Frame extends JFrame {
                                     offsetToQuadrant = currentFigure.getOffsetToClosestCorner(p);
                                 }
                                 break;
-                            case CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE, CREATE_TRIANGLE:
+                            case CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE, CREATE_TRIANGLE, CREATE_CARRO:
                                 switch (estado) {
                                     case CREATE_RECT:
                                         currentFigure = new Rect(p.x, p.y, 0, 0, Color.BLACK, Color.WHITE);
@@ -124,7 +128,12 @@ class Frame extends JFrame {
                                     case CREATE_TRIANGLE:
                                         currentFigure = new Triangle(p.x, p.y, 0, 0, Color.BLACK, Color.WHITE);
                                         break;
+                                    case CREATE_CARRO:
+                                        // Cria um novo objeto carro
+                                        currentFigure = new Carro(p.x, p.y, 0, 0, Color.BLACK, Color.WHITE);
+                                        break;
                                 }
+                                // Adiciona figura criada à lista
                                 figs.add(currentFigure);
                                 currentOrigin = p;
                                 repaint();
@@ -157,7 +166,7 @@ class Frame extends JFrame {
                                     repaint();
                                 }
                                 break;
-                            case CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE, CREATE_TRIANGLE:
+                            case CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE, CREATE_TRIANGLE, CREATE_CARRO:
                                 if (currentFigure != null) {
                                     currentFigure.setSizeRelativeTo(p.x, p.y,
                                             currentOrigin.x, currentOrigin.y);
@@ -208,7 +217,7 @@ class Frame extends JFrame {
     }
 
     enum State {
-        SELECT, CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE, CREATE_TRIANGLE, RESIZE
+        SELECT, CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE, CREATE_TRIANGLE, CREATE_CARRO, RESIZE
     }
 
     private void setState(State s) {
@@ -232,6 +241,10 @@ class Frame extends JFrame {
             case CREATE_TRIANGLE:
                 this.estado = State.CREATE_TRIANGLE;
                 this.estadoStr = "Criando triângulo...";
+                break;
+            case CREATE_CARRO:
+                this.estado = State.CREATE_CARRO;
+                this.estadoStr = "Criando carro...";
                 break;
             case RESIZE:
                 this.estado = State.RESIZE;
@@ -265,6 +278,7 @@ class Frame extends JFrame {
             return null;
         }
         // Retorna próxima figura, tratando figs como uma lista circular
+        // Caso não exista figura em foco, retorna a primeira figura da lista
         return figs.get(i % figs.size());
     }
 

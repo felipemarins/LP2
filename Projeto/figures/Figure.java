@@ -36,7 +36,13 @@ public abstract class Figure {
         drawColor = c;
     }
 
+    public void setDrawColor(Color c){
+        drawColor = c;
+    }
+
     public abstract void setFillColor(JFrame frame);
+
+    public abstract void setFillColor(Color c);
 
     protected Color setColor(JFrame frame, String title, String message) {
         String s = JOptionPane.showInputDialog(frame, message, title, JOptionPane.QUESTION_MESSAGE);

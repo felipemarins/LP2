@@ -59,4 +59,8 @@ public class Line extends Figure {
     public void setFillColor(JFrame frame) {
         return;
     }
+
+    public void setFillColor(Color c) {
+        return;
+    }
 }

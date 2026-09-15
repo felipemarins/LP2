@@ -18,4 +18,8 @@ public abstract class FillableFigure extends Figure {
         }
         fillColor = c;
     }
+
+    public void setFillColor(Color c) {
+        fillColor = c;
+    }
 }
