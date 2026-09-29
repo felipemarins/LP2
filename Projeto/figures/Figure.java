@@ -2,8 +2,9 @@ package figures;
 
 import java.awt.*;
 import javax.swing.*;
+import ivisible.IVisible;
 
-public abstract class Figure {
+public abstract class Figure implements IVisible {
     int x, y;
     int w, h;
     Color drawColor;
@@ -19,8 +20,6 @@ public abstract class Figure {
     }
 
     public abstract Figure copy();
-
-    public abstract void paint(Graphics g);
 
     public void paintFocused(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -56,8 +55,6 @@ public abstract class Figure {
         }
         return new Color(Integer.parseInt(s, 16));
     }
-
-    public abstract boolean contains(Point p);
 
     public boolean boundsContain(Point p) {
         return bounds.contains(p);
