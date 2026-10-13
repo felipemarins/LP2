@@ -29,8 +29,7 @@ public class Line extends Figure {
     }
 
     public boolean contains(Point p) {
-        Rectangle r = new Rectangle(this.x, this.y, this.w, this.h);
-        return r.contains(p);
+        return line.ptSegDist(p) < 10;
     }
 
     public void move(int offsetX, int offsetY) {
