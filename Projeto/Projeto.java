@@ -206,11 +206,8 @@ class Frame extends JFrame {
 
     public void paint(Graphics g) {
         super.paint(g);
-        figs.forEach((fig) -> {
-            fig.paint(g);
-        });
-        if (currentFigure != null) {
-            currentFigure.paintFocused(g);
+        for(Figure fig: figs){
+            fig.paint(g, currentFigure == fig);
         }
         g.setColor(new Color(150, 150, 255));
         g.fillRect(0, 0, this.getSize().width, 50);

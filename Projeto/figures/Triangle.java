@@ -37,11 +37,14 @@ public class Triangle extends FillableFigure {
         }
     }
 
-    public void paint(Graphics g) {
+    public void paint(Graphics g, boolean isFocused) {
         Graphics2D g2d = (Graphics2D) g;
         g.setColor(fillColor);
         g2d.fill(shape);
         g.setColor(drawColor);
         g2d.draw(shape);
+        if(isFocused) {
+            this.paintFocused(g);
+        }
     }
 }

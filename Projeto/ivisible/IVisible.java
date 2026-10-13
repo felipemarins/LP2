@@ -5,5 +5,5 @@ import java.awt.Point;
 
 public interface IVisible {
     boolean contains(Point p);
-    void paint(Graphics g);
+    void paint(Graphics g, boolean isFocused);
 }

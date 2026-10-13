@@ -74,10 +74,13 @@ public class Carro extends FillableFigure {
         roda2.setFillColor(fillColor);
     }
 
-    public void paint(Graphics g) {
+    public void paint(Graphics g, boolean isFocused) {
         // Chama o método paint de todas as partes do carro
-        chassi.paint(g);
-        roda1.paint(g);
-        roda2.paint(g);
+        chassi.paint(g, false);
+        roda1.paint(g, false);
+        roda2.paint(g, false);
+        if(isFocused) {
+            this.paintFocused(g);
+        }
     }
 }

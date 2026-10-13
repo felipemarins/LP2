@@ -22,11 +22,14 @@ public class Rect extends FillableFigure {
                 this.w, this.h, this.x, this.y);
     }
 
-    public void paint(Graphics g) {
+    public void paint(Graphics g, boolean isFocused) {
         Graphics2D g2d = (Graphics2D) g;
         g.setColor(fillColor);
         g2d.fillRect(this.x, this.y, this.w, this.h);
         g.setColor(drawColor);
         g2d.drawRect(this.x, this.y, this.w, this.h);
+        if(isFocused) {
+            this.paintFocused(g);
+        }
     }
 }

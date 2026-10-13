@@ -62,10 +62,13 @@ public class Line extends Figure {
         line.setLine(x1, y1, x2, y2);
     }
 
-    public void paint(Graphics g) {
+    public void paint(Graphics g, boolean isFocused) {
         Graphics2D g2d = (Graphics2D) g;
         g.setColor(drawColor);
         g2d.draw(line);
+        if(isFocused) {
+            this.paintFocused(g);
+        }
     }
 
     public void setFillColor(JFrame frame) {

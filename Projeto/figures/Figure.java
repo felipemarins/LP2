@@ -21,12 +21,13 @@ public abstract class Figure implements IVisible {
 
     public abstract Figure copy();
 
-    public void paintFocused(Graphics g) {
+    protected void paintFocused(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(4.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f,
                 new float[] { 4.0f, 8.0f }, 0f));
         g2d.setColor(new Color(255, 0, 0, 200));
         g2d.draw(bounds);
+        g2d.setStroke(new BasicStroke());
     }
 
     public void setDrawColor(JFrame frame) {
