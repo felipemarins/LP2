@@ -4,6 +4,7 @@ import java.awt.font.*;
 import java.util.*;
 import javax.swing.*;
 import java.text.*;
+import java.io.*;
 
 import figures.*;
 import button.Button;
@@ -32,6 +33,16 @@ class Frame extends JFrame {
         buts.add(new Button(2, new Line(0, 0, 0, 0, Color.BLACK), State.CREATE_LINE));
         buts.add(new Button(3, new Triangle(0, 0, 0, 0, Color.BLACK, Color.WHITE), State.CREATE_TRIANGLE));
         buts.add(new Button(4, new Carro(0, 0, 0, 0, Color.BLACK, Color.WHITE), State.CREATE_CARRO));
+
+        try {
+            FileInputStream f = new FileInputStream("proj.bin");
+            ObjectInputStream o = new ObjectInputStream(f);
+            this.figs = (ArrayList<Figure>) o.readObject();
+            o.close();
+        } catch (Exception x) {
+            System.out.println("erro ao tentar carregar proj.bin!");
+        }
+
         this.addKeyListener(
                 new KeyAdapter() {
                     public void keyPressed(KeyEvent e) {
@@ -207,6 +218,20 @@ class Frame extends JFrame {
                                 break;
                             default:
                                 break;
+                        }
+                    }
+                });
+        this.addWindowListener(
+                new WindowAdapter() {
+                    public void windowClosing (WindowEvent e) {
+                        try {
+                            FileOutputStream f = new FileOutputStream("proj.bin");
+                            ObjectOutputStream o = new ObjectOutputStream(f);
+                            o.writeObject(figs);
+                            o.flush();
+                            o.close();
+                        } catch (Exception x) {
+                            System.out.println("Erro ao gravar arquivo proj.bin!");
                         }
                     }
                 });

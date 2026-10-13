@@ -3,8 +3,9 @@ package figures;
 import java.awt.*;
 import javax.swing.*;
 import ivisible.IVisible;
+import java.io.Serializable;
 
-public abstract class Figure implements IVisible {
+public abstract class Figure implements IVisible, Serializable {
     int x, y;
     int w, h;
     Color drawColor;
