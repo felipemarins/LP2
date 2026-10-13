@@ -1,0 +1,5 @@
+package button;
+
+public enum State {
+    SELECT, CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE, CREATE_TRIANGLE, CREATE_CARRO, RESIZE
+}

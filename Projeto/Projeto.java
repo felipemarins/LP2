@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.text.*;
 
 import figures.*;
+import button.Button;
+import button.State;
 
 class Projeto {
     public void main(String[] args) {
@@ -16,6 +18,7 @@ class Projeto {
 
 class Frame extends JFrame {
     ArrayList<Figure> figs = new ArrayList<Figure>();
+    ArrayList<Button> buts = new ArrayList<Button>();
     State estado;
     String estadoStr;
     Figure currentFigure;
@@ -24,6 +27,11 @@ class Frame extends JFrame {
     Point offsetToQuadrant;
 
     Frame() {
+        buts.add(new Button(0, new Rect(0, 0, 0, 0, Color.BLACK, Color.WHITE), State.CREATE_RECT));
+        buts.add(new Button(1, new Ellipse(0, 0, 0, 0, Color.BLACK, Color.WHITE), State.CREATE_ELLIPSE));
+        buts.add(new Button(2, new Line(0, 0, 0, 0, Color.BLACK), State.CREATE_LINE));
+        buts.add(new Button(3, new Triangle(0, 0, 0, 0, Color.BLACK, Color.WHITE), State.CREATE_TRIANGLE));
+        buts.add(new Button(4, new Carro(0, 0, 0, 0, Color.BLACK, Color.WHITE), State.CREATE_CARRO));
         this.addKeyListener(
                 new KeyAdapter() {
                     public void keyPressed(KeyEvent e) {
@@ -90,9 +98,11 @@ class Frame extends JFrame {
                                 repaint();
                                 break;
                             case KeyEvent.VK_3:
-                                currentFigure = currentFigure.copy();
-                                figs.add(currentFigure);
-                                repaint();
+                                if (currentFigure != null) {
+                                    currentFigure = currentFigure.copy();
+                                    figs.add(currentFigure);
+                                    repaint();
+                                }
                                 break;
                             default:
                                 break;
@@ -103,48 +113,52 @@ class Frame extends JFrame {
                 new MouseAdapter() {
                     public void mousePressed(MouseEvent e) {
                         Point p = e.getPoint();
-                        switch (estado) {
-                            case SELECT:
-                                currentFigure = getFigureAt(p, false);
-                                repaint();
-                                if (currentFigure != null) {
-                                    lastMousePosition = p;
-                                }
-                                break;
-                            case RESIZE:
-                                currentFigure = getFigureAt(p, true);
-                                repaint();
-                                if (currentFigure != null) {
-                                    currentOrigin = currentFigure.getOrigin(p);
-                                    offsetToQuadrant = currentFigure.getOffsetToClosestCorner(p);
-                                }
-                                break;
-                            case CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE, CREATE_TRIANGLE, CREATE_CARRO:
-                                switch (estado) {
-                                    case CREATE_RECT:
-                                        currentFigure = new Rect(p.x, p.y, 0, 0, Color.BLACK, Color.WHITE);
-                                        break;
-                                    case CREATE_ELLIPSE:
-                                        currentFigure = new Ellipse(p.x, p.y, 0, 0, Color.BLACK, Color.WHITE);
-                                        break;
-                                    case CREATE_LINE:
-                                        currentFigure = new Line(p.x, p.y, 0, 0, Color.BLACK);
-                                        break;
-                                    case CREATE_TRIANGLE:
-                                        currentFigure = new Triangle(p.x, p.y, 0, 0, Color.BLACK, Color.WHITE);
-                                        break;
-                                    case CREATE_CARRO:
-                                        // Cria um novo objeto carro
-                                        currentFigure = new Carro(p.x, p.y, 0, 0, Color.BLACK, Color.WHITE);
-                                        break;
-                                }
-                                // Adiciona figura criada à lista
-                                figs.add(currentFigure);
-                                currentOrigin = p;
-                                repaint();
-                                break;
-                            default:
-                                break;
+                        if(getButtonAt(p)){
+                            return;
+                        } else {
+                            switch (estado) {
+                                case SELECT:
+                                    currentFigure = getFigureAt(p, false);
+                                    repaint();
+                                    if (currentFigure != null) {
+                                        lastMousePosition = p;
+                                    }
+                                    break;
+                                case RESIZE:
+                                    currentFigure = getFigureAt(p, true);
+                                    repaint();
+                                    if (currentFigure != null) {
+                                        currentOrigin = currentFigure.getOrigin(p);
+                                        offsetToQuadrant = currentFigure.getOffsetToClosestCorner(p);
+                                    }
+                                    break;
+                                case CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE, CREATE_TRIANGLE, CREATE_CARRO:
+                                    switch (estado) {
+                                        case CREATE_RECT:
+                                            currentFigure = new Rect(p.x, p.y, 0, 0, Color.BLACK, Color.WHITE);
+                                            break;
+                                        case CREATE_ELLIPSE:
+                                            currentFigure = new Ellipse(p.x, p.y, 0, 0, Color.BLACK, Color.WHITE);
+                                            break;
+                                        case CREATE_LINE:
+                                            currentFigure = new Line(p.x, p.y, 0, 0, Color.BLACK);
+                                            break;
+                                        case CREATE_TRIANGLE:
+                                            currentFigure = new Triangle(p.x, p.y, 0, 0, Color.BLACK, Color.WHITE);
+                                            break;
+                                        case CREATE_CARRO:
+                                            // Cria um novo objeto carro
+                                            currentFigure = new Carro(p.x, p.y, 0, 0, Color.BLACK, Color.WHITE);
+                                            break;
+                                    }
+                                    // Adiciona figura criada à lista
+                                    figs.add(currentFigure);
+                                    currentOrigin = p;
+                                    repaint();
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
 
@@ -209,6 +223,9 @@ class Frame extends JFrame {
         for(Figure fig: figs){
             fig.paint(g, currentFigure == fig);
         }
+        for(Button but: buts){
+            but.paint(g, but.state == estado);
+        }
         g.setColor(new Color(150, 150, 255));
         g.fillRect(0, 0, this.getSize().width, 50);
         g.setColor(new Color(25, 25, 25));
@@ -216,10 +233,6 @@ class Frame extends JFrame {
         estadoAttrStr.addAttribute(TextAttribute.SIZE, 10);
         estadoAttrStr.addAttribute(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD, 0, 13);
         g.drawString(estadoAttrStr.getIterator(), 10, 45);
-    }
-
-    enum State {
-        SELECT, CREATE_RECT, CREATE_ELLIPSE, CREATE_LINE, CREATE_TRIANGLE, CREATE_CARRO, RESIZE
     }
 
     private void setState(State s) {
@@ -265,6 +278,16 @@ class Frame extends JFrame {
             }
         }
         return null;
+    }
+
+    private boolean getButtonAt(Point p){
+        for(Button but: buts){
+            if(but.contains(p)){
+                setState(but.state);
+                return true;
+            }
+        }
+        return false;
     }
 
     private Figure getNextFigure(){

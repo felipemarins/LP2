@@ -61,10 +61,18 @@ public abstract class Figure implements IVisible {
         return bounds.contains(p);
     }
 
+    public void setPosition(int x, int y){
+        this.move(x - this.x, y - this.y);
+    }
+
     public void move(int offsetX, int offsetY) {
         this.x += offsetX;
         this.y += offsetY;
         updateBounds();
+    }
+
+    public void setSize(int w, int h){
+        this.setSizeRelativeTo(this.x + w, this.y + h, this.x, this.y);
     }
 
     public void setSizeRelativeTo(int x, int y, int originX, int originY) {
